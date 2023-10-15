@@ -1,8 +1,7 @@
 package net.codetreats.sevdesk.types.create
 
 import net.codetreats.sevdesk.types.*
-import net.codetreats.sevdesk.util.toAtom
-import java.util.*
+import java.time.LocalDateTime
 
 data class InvoiceCreateContainer(
     val invoice: InvoiceCreate,
@@ -16,7 +15,7 @@ data class InvoiceCreate(
     val headText: String,
     val footText: String,
     val contact: ContactObject,
-    @Transient val invoiceDateObject: Date,
+    val invoiceDate: LocalDateTime,
     val discountTime: String,
     val discount: String,
     val status: InvoiceStatus,
@@ -33,7 +32,6 @@ data class InvoiceCreate(
     val mapAll: Boolean
 ) {
     val objectName: String = "Invoice"
-    val invoiceDate: String = invoiceDateObject.toAtom()
 }
 
 data class InvoicePosCreate(

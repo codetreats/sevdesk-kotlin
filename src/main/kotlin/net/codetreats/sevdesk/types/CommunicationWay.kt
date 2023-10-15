@@ -2,12 +2,12 @@ package net.codetreats.sevdesk.types
 
 import com.squareup.moshi.*
 import java.lang.IllegalArgumentException
-import java.util.Date
+import java.time.LocalDateTime
 
 data class CommunicationWay(
     val id: String,
-    val create: Date,
-    val update: Date,
+    val create: LocalDateTime,
+    val update: LocalDateTime,
     val contact: ContactObject,
     val type: CommunicationWayType,
     val value: String,

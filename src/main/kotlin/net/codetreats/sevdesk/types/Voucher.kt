@@ -2,19 +2,19 @@ package net.codetreats.sevdesk.types
 
 import com.squareup.moshi.*
 import java.lang.IllegalArgumentException
-import java.util.Date
+import java.time.LocalDateTime
 
 data class Voucher(
     val id: String,
     val additionalInformation: String?,
-    val create: Date,
-    val update: Date,
+    val create: LocalDateTime,
+    val update: LocalDateTime,
     val createUser: SevUserObject,
-    val voucherDate: Date,
+    val voucherDate: LocalDateTime,
     val supplierName: String,
     val description: String,
     val document: DocumentObject,
-    val payDate: Date?,
+    val payDate: LocalDateTime?,
     val status: VoucherStatus,
     val currency: String,
     val sumNet: Double,
@@ -22,7 +22,7 @@ data class Voucher(
     val sumGross: Double,
     val showNet: Int,
     val voucherType: String,
-    val deliveryDate: Date
+    val deliveryDate: LocalDateTime
 )
 
 enum class VoucherStatus(val value: Int) {

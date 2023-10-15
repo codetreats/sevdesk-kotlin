@@ -2,15 +2,15 @@ package net.codetreats.sevdesk.types
 
 import com.squareup.moshi.*
 import java.lang.IllegalArgumentException
-import java.util.Date
+import java.time.LocalDateTime
 
 data class Part(
     val id: String,
     val name: String,
     val partNumber: String,
     val category: CategoryObject,
-    val create: Date,
-    val update: Date,
+    val create: LocalDateTime,
+    val update: LocalDateTime,
     val unity: UnityObject,
     val price: Double,
     val taxRate: Int,

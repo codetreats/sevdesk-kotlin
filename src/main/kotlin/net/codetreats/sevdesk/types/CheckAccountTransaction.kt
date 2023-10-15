@@ -2,14 +2,14 @@ package net.codetreats.sevdesk.types
 
 import com.squareup.moshi.*
 import java.lang.IllegalArgumentException
-import java.util.Date
+import java.time.LocalDateTime
 
 data class CheckAccountTransaction(
     val id: String,
-    val create: Date,
-    val update: Date,
-    val valueDate: Date,
-    val entryDate: Date,
+    val create: LocalDateTime,
+    val update: LocalDateTime,
+    val valueDate: LocalDateTime,
+    val entryDate: LocalDateTime,
     val amount: Double,
     val paymtPurpose: String,
     val payeePayerName: String,

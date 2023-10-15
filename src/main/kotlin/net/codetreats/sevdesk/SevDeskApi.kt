@@ -5,7 +5,7 @@ import net.codetreats.sevdesk.types.StaticCountry
 import net.codetreats.sevdesk.util.asTimestampParam
 import net.codetreats.sevdesk.util.unixTimestamp
 import java.lang.IllegalArgumentException
-import java.util.*
+import java.time.LocalDateTime
 
 
 val NO_LIMIT = Pair("limit", "100000")
@@ -25,8 +25,8 @@ class SevDeskApi(
     fun invoices(limit: Int = 50): List<Invoice> =
         client.get<Invoice>("/Invoice", mapOf("limit" to "$limit"))
 
-    fun invoicesFrom(startTime: Date): List<Invoice> =
-        client.get<Invoice>("/Invoice", mapOf("startDate" to "${startTime.unixTimestamp()}"))
+    fun invoicesFrom(startTime: LocalDateTime): List<Invoice> =
+        client.get<Invoice>("/Invoice", mapOf(NO_LIMIT, "startDate" to "${startTime.unixTimestamp()}"))
 
     fun invoicePositionsOf(invoiceId: String): List<InvoicePos> =
         client.get<InvoicePos>("/InvoicePos", InvoiceObject(invoiceId).asParam())
@@ -45,7 +45,7 @@ class SevDeskApi(
         return allEmails.any { it.value.lowercase() == email.lowercase() }
     }
 
-    fun transactions(accountId: String, start: Date, end: Date): List<CheckAccountTransaction> {
+    fun transactions(accountId: String, start: LocalDateTime, end: LocalDateTime): List<CheckAccountTransaction> {
         val params = CheckAccountObject(accountId).asParam() +
                 NO_LIMIT +
                 start.asTimestampParam("startDate") +

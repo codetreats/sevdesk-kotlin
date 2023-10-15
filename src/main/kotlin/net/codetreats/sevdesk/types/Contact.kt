@@ -6,12 +6,12 @@ import com.squareup.moshi.JsonReader
 import com.squareup.moshi.JsonWriter
 import com.squareup.moshi.ToJson
 import java.lang.IllegalArgumentException
-import java.util.*
+import java.time.LocalDateTime
 
 data class Contact(
     val id: String,
-    val create: Date,
-    val update: Date,
+    val create: LocalDateTime,
+    val update: LocalDateTime,
     val name: String?,
     val status: ContactStatus,
     val customerNumber: String,

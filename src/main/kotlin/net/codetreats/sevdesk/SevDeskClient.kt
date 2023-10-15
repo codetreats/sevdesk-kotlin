@@ -8,6 +8,8 @@ import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import net.codetreats.rest.RestClient
 import net.codetreats.sevdesk.types.*
+import net.codetreats.sevdesk.util.LocalDateTimeAdapter
+import java.time.LocalDateTime
 import java.util.logging.Logger
 import java.util.*
 
@@ -24,6 +26,7 @@ class SevDeskClient(
     val restClient = RestClient(apiUrl, mapOf("Authorization" to apiKey))
     val moshi : Moshi = Moshi.Builder()
         .add(Date::class.java, Rfc3339DateJsonAdapter())
+        .add(LocalDateTime::class.java, LocalDateTimeAdapter())
         .add(CheckAccountTransactionStatusAdapter())
         .add(InvoiceTypeAdapter())
         .add(InvoiceStatusAdapter())

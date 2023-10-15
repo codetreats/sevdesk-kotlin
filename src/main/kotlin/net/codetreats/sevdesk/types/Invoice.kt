@@ -2,22 +2,22 @@ package net.codetreats.sevdesk.types
 
 import com.squareup.moshi.*
 import java.lang.IllegalArgumentException
-import java.util.*
+import java.time.LocalDateTime
 
 data class Invoice(
     val id: String,
     val invoiceNumber: String,
     val contact: ContactObject,
-    val create: Date,
-    val update: Date,
-    val invoiceDate: Date,
+    val create: LocalDateTime,
+    val update: LocalDateTime,
+    val invoiceDate: LocalDateTime,
     val header: String,
     val headText: String,
     val footText: String,
     val timeToPay: Int,
     val addressCountry: StaticCountryObject,
     val createUser: SevUserObject,
-    val deliveryDate: Date,
+    val deliveryDate: LocalDateTime,
     val status: InvoiceStatus,
     val contactPerson: ContactObject,
     val taxRate: Int,
@@ -27,7 +27,7 @@ data class Invoice(
     val sumNet: Double,
     val sumTax: Double,
     val sumGross: Double,
-    val customerInternalNote: String
+    val customerInternalNote: String?
 )
 
 enum class InvoiceType(val abbreviation: String) {

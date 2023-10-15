@@ -1,13 +1,13 @@
 package net.codetreats.sevdesk.util
 
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 import java.util.*
 
 
-fun Date.unixTimestamp() : Long = time / 1000
+fun LocalDateTime.unixTimestamp() : Long = this.toEpochSecond(ZoneOffset.UTC)
 
-fun Date.unixTimestampStr() : String = "${unixTimestamp()}"
+fun LocalDateTime.unixTimestampStr() : String = "${unixTimestamp()}"
 
-fun Date.asTimestampParam(name: String) = Pair(name, unixTimestampStr())
-
-fun Date.toAtom() : String = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX").format(this)
+fun LocalDateTime.asTimestampParam(name: String) = Pair(name, unixTimestampStr())
