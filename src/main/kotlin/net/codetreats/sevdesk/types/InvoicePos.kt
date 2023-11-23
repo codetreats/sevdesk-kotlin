@@ -4,7 +4,7 @@ data class InvoicePos(
     val id: String,
     val name: String,
     val invoice: InvoiceObject,
-    val part: PartObject,
+    val part: PartObject?,
     val sumNet: Double,
     val sumTax: Double,
     val sumGross: Double,

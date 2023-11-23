@@ -24,7 +24,7 @@ class SevDeskClient(
     val logger: Logger? = null
 ) {
     val restClient = RestClient(apiUrl, mapOf("Authorization" to apiKey))
-    val moshi : Moshi = Moshi.Builder()
+    val moshi: Moshi = Moshi.Builder()
         .add(Date::class.java, Rfc3339DateJsonAdapter())
         .add(LocalDateTime::class.java, LocalDateTimeAdapter())
         .add(CheckAccountTransactionStatusAdapter())
@@ -43,7 +43,7 @@ class SevDeskClient(
         params: Map<String, String> = emptyMap(),
         headers: Map<String, String> = emptyMap()
     ): List<T> {
-        logger?.info("GET $subUrl${params.asUrl()} (${headers.asList()})")
+        logger?.info("GET $subUrl${params.asUrl()} ${headers.asList()}")
         val message = restClient.get(subUrl, params, headers).message!!
         val responseType = Types.newParameterizedType(SevDeskListResponse::class.java, T::class.java)
         val adapter: JsonAdapter<SevDeskListResponse<T>> = moshi.adapter(responseType)
@@ -62,7 +62,15 @@ class SevDeskClient(
         return adapter.fromJson(message)!!.objects
     }
 
-    fun Map<String, String>.asUrl() = entries.joinToString("&", prefix = "?") { (k, v) -> "$k=$v" }
+    fun Map<String, String>.asUrl() = if (isEmpty()) {
+        ""
+    } else {
+        entries.joinToString("&", prefix = "?") { (k, v) -> "$k=$v" }
+    }
 
-    fun Map<String, String>.asList() = entries.joinToString(",") { (k, v) -> "$k=$v" }
+    fun Map<String, String>.asList() = if (isEmpty()) {
+        ""
+    } else {
+        entries.joinToString(",", "(", ")") { (k, v) -> "$k=$v" }
+    }
 }

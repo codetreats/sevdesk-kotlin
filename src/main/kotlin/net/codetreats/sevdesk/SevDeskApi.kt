@@ -25,6 +25,9 @@ class SevDeskApi(
     fun invoices(limit: Int = 50): List<Invoice> =
         client.get<Invoice>("/Invoice", mapOf("limit" to "$limit"))
 
+    fun invoicePdf(invoiceId: String) : SevDeskFile =
+        client.getElement<SevDeskFile>("/Invoice/$invoiceId/getPdf")
+
     fun invoicesFrom(startTime: LocalDateTime): List<Invoice> =
         client.get<Invoice>("/Invoice", mapOf(NO_LIMIT, "startDate" to "${startTime.unixTimestamp()}"))
 
