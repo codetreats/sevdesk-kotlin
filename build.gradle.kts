@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "net.codetreats"
-version = "0.0.3-rc.5-SNAPSHOT"
+version = "0.0.3"
 
 repositories {
     mavenCentral()
