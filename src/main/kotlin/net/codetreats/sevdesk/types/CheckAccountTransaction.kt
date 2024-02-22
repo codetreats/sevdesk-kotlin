@@ -12,7 +12,7 @@ data class CheckAccountTransaction(
     val entryDate: LocalDateTime,
     val amount: Double,
     val paymtPurpose: String,
-    val payeePayerName: String,
+    val payeePayerName: String?,
     val checkAccount: CheckAccountObject,
     val status: CheckAccountTransactionStatus
 )
@@ -21,6 +21,7 @@ enum class CheckAccountTransactionStatus(val value: Int) {
     CREATED(100),
     LINKED(200),
     PRIVATE(300),
+    AUTOMATIC(350),
     BOOKED(400);
 
     companion object {
