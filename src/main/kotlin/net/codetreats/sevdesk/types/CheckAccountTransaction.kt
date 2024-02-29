@@ -11,7 +11,7 @@ data class CheckAccountTransaction(
     val valueDate: LocalDateTime,
     val entryDate: LocalDateTime,
     val amount: Double,
-    val paymtPurpose: String,
+    val paymtPurpose: String?,
     val payeePayerName: String?,
     val checkAccount: CheckAccountObject,
     val status: CheckAccountTransactionStatus
