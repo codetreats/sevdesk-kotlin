@@ -38,7 +38,7 @@ class SevDeskApi(
         client.getElement<String>("/Invoice/Factory/getNextInvoiceNumber")
 
     fun customerByZip(zip: String) =
-        client.get<Contact>("/Contact", mapOf(NO_LIMIT, "depth" to "1", "zip" to "zip"))
+        client.get<Contact>("/Contact", mapOf(NO_LIMIT, "depth" to "1", "zip" to zip))
 
     fun hasEmail(customerId: String, email: String): Boolean {
         val allEmails = client.get<CommunicationWay>(
@@ -74,11 +74,16 @@ class SevDeskApi(
         return parts.first()
     }
 
+    fun parts(): List<Part> = client.get<Part>("/Part", mapOf("limit" to "100000"))
+
     fun countries() : List<StaticCountry> =
         client.get<StaticCountry>("/StaticCountry", mapOf(NO_LIMIT))
 
     fun vouchers(status: VoucherStatus) : List<Voucher> =
         client.get<Voucher>("/Voucher", mapOf(NO_LIMIT, "status" to "${status.value}"))
+
+    fun vouchersFrom(startTime: LocalDateTime) : List<Voucher> =
+        client.get<Voucher>("/Voucher", mapOf(NO_LIMIT, "startDate" to "${startTime.unixTimestamp()}"))
 
     /**
      * @param itemNumber the chosen number, not the internal id

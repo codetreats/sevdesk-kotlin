@@ -9,6 +9,10 @@ data class InvoicePos(
     val sumTax: Double,
     val sumGross: Double,
     val price: Double,
+    val priceGross: Double,
+    val priceNet: Double,
     val quantity: Int,
-    val taxRate: Int
+    val taxRate: Int,
+    val discount: Double,
+    val sumDiscount: Double,
 )

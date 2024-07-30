@@ -27,7 +27,11 @@ data class Invoice(
     val sumNet: Double,
     val sumTax: Double,
     val sumGross: Double,
-    val customerInternalNote: String?
+    val customerInternalNote: String?,
+    val showNet: Int,
+    val sumDiscounts: Double,
+    val sumDiscountNet: Double,
+    val sumDiscountGross: Double
 )
 
 enum class InvoiceType(val abbreviation: String) {

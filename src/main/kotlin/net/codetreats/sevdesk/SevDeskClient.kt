@@ -35,6 +35,7 @@ class SevDeskClient(
         .add(CommunicationWayTypeAdapter())
         .add(CommunicationWayKeyAdapter())
         .add(ContactAddressCategoryAdapter())
+        .add(PartStatusAdapter())
         .addLast(KotlinJsonAdapterFactory())
         .build()
 
