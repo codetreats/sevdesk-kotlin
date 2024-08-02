@@ -29,7 +29,6 @@ data class VoucherSave(
     val objectName: String = "Voucher"
 )
 
-@JsonClass(generateAdapter = true)
 data class VoucherPosSave(
     val mapAll: Boolean = true,
     val accountingType: AccountingTypeObject,
