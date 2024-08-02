@@ -3,6 +3,7 @@ package net.codetreats.sevdesk
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
+import com.squareup.moshi.adapter
 import com.squareup.moshi.adapters.EnumJsonAdapter
 import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -49,6 +50,19 @@ class SevDeskClient(
         val responseType = Types.newParameterizedType(SevDeskListResponse::class.java, T::class.java)
         val adapter: JsonAdapter<SevDeskListResponse<T>> = moshi.adapter(responseType)
         return adapter.fromJson(message)!!.objects
+    }
+
+    inline fun <reified T> post(
+        subUrl: String,
+        params: Map<String, String> = emptyMap(),
+        headers: Map<String, String> = emptyMap(),
+        body: T
+    ) {
+        logger?.info("POST $subUrl${params.asUrl()} ${headers.asList()}")
+        val adapter: JsonAdapter<T> = moshi.adapter(T::class.java)
+        val bodyString = adapter.toJson(body)
+        logger?.fine("Content ${bodyString}")
+        restClient.post(subUrl, params, headers, bodyString)
     }
 
     inline fun <reified T> getElement(

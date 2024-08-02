@@ -2,6 +2,8 @@ package net.codetreats.sevdesk
 
 import net.codetreats.sevdesk.types.*
 import net.codetreats.sevdesk.types.StaticCountry
+import net.codetreats.sevdesk.types.create.VoucherCreate
+import net.codetreats.sevdesk.types.create.VoucherCreateInner
 import net.codetreats.sevdesk.util.asTimestampParam
 import net.codetreats.sevdesk.util.unixTimestamp
 import java.lang.IllegalArgumentException
@@ -90,4 +92,9 @@ class SevDeskApi(
      */
     fun itemExists(itemNumber: String): Boolean =
         client.get<Part>("/Part", mapOf("partNumber" to itemNumber)).isNotEmpty()
+
+    fun addVoucher(voucher: VoucherCreate)
+    {
+        client.post("/Voucher/Factory/saveVoucher", body = voucher);
+    }
 }
