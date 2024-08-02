@@ -1,15 +1,15 @@
-package net.codetreats.sevdesk.types.create
+package net.codetreats.sevdesk.model.create
 
-import net.codetreats.sevdesk.types.*
+import net.codetreats.sevdesk.model.*
 import java.time.LocalDateTime
 
-data class VoucherCreate(
-    val voucher: VoucherCreateInner,
+data class VoucherSaveContainer(
+    val voucher: VoucherSave,
     val voucherPosSave: List<VoucherPosSave>
 )
 
-data class VoucherCreateInner(
-    val objectName: String = "Voucher",
+data class VoucherSave(
+
     val mapAll: Boolean = true,
     val voucherDate: LocalDateTime,
     val supplierName: String? = null,
@@ -25,10 +25,11 @@ data class VoucherCreateInner(
     val deliveryDateUntil: LocalDateTime? = null,
     val document: DocumentObject? = null,
     val costCentre: String? = null
-)
+) {
+    val objectName: String = "Voucher"
+}
 
 data class VoucherPosSave(
-    val objectName: String = "VoucherPos",
     val mapAll: Boolean = true,
     val accountingType: AccountingTypeObject,
     val taxRate: Int,
@@ -37,4 +38,6 @@ data class VoucherPosSave(
     val sumNet: Double,
     val sumGross: Double,
     val comment: String
-)
+) {
+    val objectName: String = "VoucherPos"
+}

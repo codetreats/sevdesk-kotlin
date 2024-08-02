@@ -1,7 +1,6 @@
 package net.codetreats.sevdesk.util
 
 import com.squareup.moshi.*
-import net.codetreats.sevdesk.types.InvoiceStatus
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter

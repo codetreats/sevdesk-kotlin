@@ -1,14 +1,14 @@
-package net.codetreats.sevdesk.types.create
+package net.codetreats.sevdesk.model.create
 
-import net.codetreats.sevdesk.types.*
+import net.codetreats.sevdesk.model.*
 import java.time.LocalDateTime
 
-data class InvoiceCreateContainer(
-    val invoice: InvoiceCreate,
-    val invoicePosSave: List<InvoicePosCreate>
+data class InvoiceSaveContainer(
+    val invoice: InvoiceSave,
+    val invoicePosSave: List<InvoicePosSave>
 )
 
-data class InvoiceCreate(
+data class InvoiceSave(
     val invoiceNumber: String,
     val header: String,
     val customerInternalNote: String,
@@ -34,7 +34,7 @@ data class InvoiceCreate(
     val objectName: String = "Invoice"
 }
 
-data class InvoicePosCreate(
+data class InvoicePosSave(
     val part: PartObject,
     val quantity: Int,
     val price: Double,

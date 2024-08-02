@@ -1,4 +1,4 @@
-package net.codetreats.sevdesk.types
+package net.codetreats.sevdesk
 
 data class SevDeskListResponse<T>(val objects: List<T>)
 

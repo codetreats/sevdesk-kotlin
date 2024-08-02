@@ -1,4 +1,4 @@
-package net.codetreats.sevdesk.types
+package net.codetreats.sevdesk.model
 
 data class InvoicePos(
     val id: String,

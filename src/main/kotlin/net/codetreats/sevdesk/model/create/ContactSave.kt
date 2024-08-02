@@ -1,8 +1,8 @@
-package net.codetreats.sevdesk.types.create
+package net.codetreats.sevdesk.model.create
 
-import net.codetreats.sevdesk.types.CategoryObject
+import net.codetreats.sevdesk.model.CategoryObject
 
-data class ContactCreate(
+data class ContactSave(
     val surename: String,
     val familyname: String,
     val description: String,

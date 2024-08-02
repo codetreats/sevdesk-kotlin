@@ -1,8 +1,8 @@
-package net.codetreats.sevdesk.types.create
+package net.codetreats.sevdesk.model.create
 
-import net.codetreats.sevdesk.types.*
+import net.codetreats.sevdesk.model.*
 
-data class ContactAddressCreate(
+data class ContactAddressSave(
     @Transient
     val contactId: String,
     val street: String,

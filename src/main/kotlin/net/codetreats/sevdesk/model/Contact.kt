@@ -1,4 +1,4 @@
-package net.codetreats.sevdesk.types
+package net.codetreats.sevdesk.model
 
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.JsonAdapter

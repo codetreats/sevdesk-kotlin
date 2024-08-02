@@ -1,9 +1,9 @@
-package net.codetreats.sevdesk.types.create
+package net.codetreats.sevdesk.model.create
 
-import net.codetreats.sevdesk.types.CheckAccountObject
+import net.codetreats.sevdesk.model.CheckAccountObject
 import java.time.LocalDateTime
 
-data class TransactionCreate(
+data class TransactionSave(
     val valueDate: LocalDateTime,
     val entryDate: LocalDateTime,
     val amount: String,

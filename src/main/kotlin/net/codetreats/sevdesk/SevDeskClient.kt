@@ -3,12 +3,10 @@ package net.codetreats.sevdesk
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
-import com.squareup.moshi.adapter
-import com.squareup.moshi.adapters.EnumJsonAdapter
 import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import net.codetreats.rest.RestClient
-import net.codetreats.sevdesk.types.*
+import net.codetreats.sevdesk.model.*
 import net.codetreats.sevdesk.util.LocalDateTimeAdapter
 import java.time.LocalDateTime
 import java.util.logging.Logger
@@ -16,8 +14,9 @@ import java.util.*
 
 /**
  * Creates an instance of the API
- * @param restClient an instance of [RestClient]
+ * @param apiUrl the URL of the API
  * @param apiKey the SevDesk API key (can be found under extensions->API)
+ * @param logger an optional logger
  */
 class SevDeskClient(
     apiUrl: String,
