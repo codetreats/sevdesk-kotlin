@@ -29,10 +29,9 @@ data class InvoiceSave(
     val invoiceType: InvoiceType,
     val address: String,
     val currency: String,
-    val mapAll: Boolean
-) {
+    val mapAll: Boolean,
     val objectName: String = "Invoice"
-}
+)
 
 data class InvoicePosSave(
     val part: PartObject,
@@ -45,7 +44,6 @@ data class InvoicePosSave(
     val discount: Double,
     val taxRate: String,
     val temporary: Boolean,
-    val mapAll: Boolean
-) {
+    val mapAll: Boolean,
     val objectName: String = "InvoicePos"
-}
+)

@@ -1,5 +1,7 @@
 package net.codetreats.sevdesk.model.create
 
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import net.codetreats.sevdesk.model.*
 import java.time.LocalDateTime
 
@@ -9,7 +11,6 @@ data class VoucherSaveContainer(
 )
 
 data class VoucherSave(
-
     val mapAll: Boolean = true,
     val voucherDate: LocalDateTime,
     val supplierName: String? = null,
@@ -24,11 +25,11 @@ data class VoucherSave(
     val taxSet: TaxSetObject? = null,
     val deliveryDateUntil: LocalDateTime? = null,
     val document: DocumentObject? = null,
-    val costCentre: String? = null
-) {
+    val costCentre: String? = null,
     val objectName: String = "Voucher"
-}
+)
 
+@JsonClass(generateAdapter = true)
 data class VoucherPosSave(
     val mapAll: Boolean = true,
     val accountingType: AccountingTypeObject,
@@ -37,7 +38,6 @@ data class VoucherPosSave(
     val isAsset: Boolean = false,
     val sumNet: Double,
     val sumGross: Double,
-    val comment: String
-) {
+    val comment: String,
     val objectName: String = "VoucherPos"
-}
+)
