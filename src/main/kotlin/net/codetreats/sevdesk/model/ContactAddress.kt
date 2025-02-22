@@ -1,7 +1,5 @@
 package net.codetreats.sevdesk.model
 
-import com.squareup.moshi.*
-import java.lang.IllegalArgumentException
 import java.time.LocalDateTime
 
 data class ContactAddress(
@@ -13,34 +11,6 @@ data class ContactAddress(
     val zip: String,
     val city: String,
     val country: StaticCountryObject,
-    val category: ContactAddressCategory,
+    val category: CategoryObject,
     val name: String?
 )
-
-enum class ContactAddressCategory(val value: Int) {
-    WORK(43),
-    PRIVATE(44),
-    EMPTY(45),
-    INVOICE(47),
-    DELIVERY(48),
-    PICKUP(49);
-
-    companion object {
-        fun from(value: Int) : ContactAddressCategory =
-            entries.firstOrNull { it.value == value} ?: throw IllegalArgumentException("Invalid ContactAddressCategory '$value")
-    }
-}
-
-class ContactAddressCategoryAdapter: JsonAdapter<ContactAddressCategory>() {
-    @FromJson
-    override fun fromJson(reader: JsonReader): ContactAddressCategory? =  if (reader.peek() != JsonReader.Token.NULL) {
-        ContactAddressCategory.from(reader.nextInt())
-    } else {
-        reader.nextNull()
-    }
-
-    @ToJson
-    override fun toJson(writer: JsonWriter, value: ContactAddressCategory?) {
-        writer.value(value?.value)
-    }
-}

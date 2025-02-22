@@ -23,4 +23,5 @@ class SevDeskApi(private val client: SevDeskClient) {
     val static = StaticApi(client)
     val transactions = TransactionApi(client)
     val vouchers = VoucherApi(client)
+    val orders = OrderApi(client)
 }

@@ -9,7 +9,7 @@ import net.codetreats.rest.RestClient
 import net.codetreats.sevdesk.model.*
 import net.codetreats.sevdesk.util.LocalDateTimeAdapter
 import java.time.LocalDateTime
-import java.util.logging.Logger
+import org.apache.logging.log4j.Logger
 import java.util.*
 
 /**
@@ -30,11 +30,12 @@ class SevDeskClient(
         .add(CheckAccountTransactionStatusAdapter())
         .add(InvoiceTypeAdapter())
         .add(InvoiceStatusAdapter())
+        .add(OrderTypeAdapter())
+        .add(OrderStatusAdapter())
         .add(VoucherStatusAdapter())
         .add(ContactStatusAdapter())
         .add(CommunicationWayTypeAdapter())
         .add(CommunicationWayKeyAdapter())
-        .add(ContactAddressCategoryAdapter())
         .add(PartStatusAdapter())
         .addLast(KotlinJsonAdapterFactory())
         .build()
@@ -51,17 +52,38 @@ class SevDeskClient(
         return adapter.fromJson(message)!!.objects
     }
 
-    inline fun <reified T> post(
+    inline fun <reified T, reified U> post(
         subUrl: String,
         params: Map<String, String> = emptyMap(),
         headers: Map<String, String> = emptyMap(),
         body: T
-    ) {
+    ) : U {
         logger?.info("POST $subUrl${params.asUrl()} ${headers.asList()}")
-        val adapter: JsonAdapter<T> = moshi.adapter(T::class.java)
-        val bodyString = adapter.toJson(body)
-        logger?.fine("Content ${bodyString}")
-        restClient.post(subUrl, params, headers, bodyString)
+        val adapterT: JsonAdapter<T> = moshi.adapter(T::class.java)
+        val bodyString = adapterT.toJson(body)
+        logger?.trace("Content: ${bodyString}")
+        val message = restClient.post(subUrl, params, headers, bodyString).message!!
+        logger?.trace("Result: ${message}")
+        val responseType = Types.newParameterizedType(SevDeskElementResponse::class.java, U::class.java)
+        val adapterU: JsonAdapter<SevDeskElementResponse<U>> = moshi.adapter(responseType)
+        return adapterU.fromJson(message)!!.objects
+    }
+
+    inline fun <reified T, reified U> put(
+        subUrl: String,
+        params: Map<String, String> = emptyMap(),
+        headers: Map<String, String> = emptyMap(),
+        body: T
+    ) : U {
+        logger?.info("PUT $subUrl${params.asUrl()} ${headers.asList()}")
+        val adapterT: JsonAdapter<T> = moshi.adapter(T::class.java)
+        val bodyString = adapterT.toJson(body)
+        logger?.trace("Content: ${bodyString}")
+        val message = restClient.put(subUrl, params, headers, bodyString).message!!
+        logger?.trace("Result: ${message}")
+        val responseType = Types.newParameterizedType(SevDeskElementResponse::class.java, U::class.java)
+        val adapterU: JsonAdapter<SevDeskElementResponse<U>> = moshi.adapter(responseType)
+        return adapterU.fromJson(message)!!.objects
     }
 
     inline fun <reified T> getElement(

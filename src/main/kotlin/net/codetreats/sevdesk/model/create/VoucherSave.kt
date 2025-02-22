@@ -1,7 +1,5 @@
 package net.codetreats.sevdesk.model.create
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
 import net.codetreats.sevdesk.model.*
 import java.time.LocalDateTime
 
@@ -31,7 +29,7 @@ data class VoucherSave(
 
 data class VoucherPosSave(
     val mapAll: Boolean = true,
-    val accountingType: AccountingTypeObject,
+    val accountDatev: AccountDatevObject,
     val taxRate: Int,
     val net: Boolean = false,
     val isAsset: Boolean = false,

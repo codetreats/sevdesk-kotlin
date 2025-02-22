@@ -18,7 +18,7 @@ data class Contact(
     val surename: String?,
     val familyname: String?,
     val category: CategoryObject,
-    val description: String
+    val description: String?
 )
 enum class ContactStatus(val value: Int) {
     LEAD(100),

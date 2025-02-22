@@ -1,8 +1,14 @@
 package net.codetreats.sevdesk.model
 
 import com.squareup.moshi.*
+import net.codetreats.sevdesk.model.create.VoucherPosSave
 import java.lang.IllegalArgumentException
 import java.time.LocalDateTime
+
+data class VoucherContainer(
+    val voucher: Voucher,
+    val voucherPos: List<VoucherPos>
+)
 
 data class Voucher(
     val id: String,
@@ -24,6 +30,16 @@ data class Voucher(
     val voucherType: String,
     val deliveryDate: LocalDateTime
 )
+
+data class VoucherPos(
+    val id: String,
+    val accountDatev: AccountDatevObject,
+    val taxRate: Int,
+    val sumNet: Double,
+    val sumGross: Double,
+    val comment: String,
+)
+
 
 enum class VoucherStatus(val value: Int) {
     DRAFT(50),

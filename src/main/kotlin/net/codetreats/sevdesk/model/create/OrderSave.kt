@@ -3,38 +3,39 @@ package net.codetreats.sevdesk.model.create
 import net.codetreats.sevdesk.model.*
 import java.time.LocalDateTime
 
-data class InvoiceSaveContainer(
-    val invoice: InvoiceSave,
-    val invoicePosSave: List<InvoicePosSave>
+data class OrderSaveContainer(
+    val order: OrderSave,
+    val orderPosSave: List<OrderPosSave>
 )
 
-data class InvoiceSave(
-    val invoiceNumber: String,
+data class OrderSave(
+    val orderNumber: String,
     val header: String,
     val customerInternalNote: String,
-    val headText: String,
-    val footText: String,
+    val headText: String = "",
+    val footText: String = "",
     val contact: ContactObject,
-    val invoiceDate: LocalDateTime,
-    val discountTime: String,
-    val discount: String,
-    val status: InvoiceStatus,
+    val orderDate: LocalDateTime,
+    val status: OrderStatus,
+    val deliveryTerms: String? = null,
+    val paymentTerms: String? = null,
     val smallSettlement: Int,
     val taxText: String,
     val taxType: String,
     val taxRate: String,
     val showNet: Int,
-    val timeToPay: Int,
     val contactPerson: SevUserObject,
-    val invoiceType: InvoiceType,
+    val orderType: OrderType,
     val address: String,
+    val addressCountry: StaticCountryObject,
     val currency: String,
     val mapAll: Boolean,
-    val objectName: String = "Invoice"
+    val version: String = "0",
+    val objectName: String = "Order"
 )
 
-data class InvoicePosSave(
-    val part: PartObject,
+data class OrderPosSave(
+    val part: PartObject?,
     val quantity: Int,
     val price: Double,
     val name: String,
@@ -46,5 +47,5 @@ data class InvoicePosSave(
     val taxRate: String,
     val temporary: Boolean,
     val mapAll: Boolean,
-    val objectName: String = "InvoicePos"
+    val objectName: String = "OrderPos"
 )

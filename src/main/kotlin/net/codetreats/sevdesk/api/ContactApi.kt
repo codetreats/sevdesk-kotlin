@@ -4,7 +4,12 @@ import net.codetreats.sevdesk.NO_LIMIT
 import net.codetreats.sevdesk.SevDeskClient
 import net.codetreats.sevdesk.model.CommunicationWay
 import net.codetreats.sevdesk.model.Contact
+import net.codetreats.sevdesk.model.ContactAddress
 import net.codetreats.sevdesk.model.ContactObject
+import net.codetreats.sevdesk.model.create.CommunicationWaySave
+import net.codetreats.sevdesk.model.create.ContactAddressSave
+import net.codetreats.sevdesk.model.create.ContactSave
+import net.codetreats.sevdesk.model.create.InvoiceSaveContainer
 
 class ContactApi(private val client: SevDeskClient) {
     fun byZip(zip: String) =
@@ -17,4 +22,15 @@ class ContactApi(private val client: SevDeskClient) {
         )
         return allEmails.any { it.value.lowercase() == email.lowercase() }
     }
+
+    fun add(contact: ContactSave) : Contact =
+        client.post("/Contact", body = contact);
+
+
+    fun addAddress(contactAddress: ContactAddressSave) : ContactAddress =
+        client.post("/ContactAddress", body = contactAddress);
+
+
+    fun addCommunicationway(communicationWaySave: CommunicationWaySave) : CommunicationWay =
+        client.post("/CommunicationWay", body = communicationWaySave);
 }

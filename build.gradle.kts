@@ -18,10 +18,11 @@ repositories {
 }
 
 dependencies {
-    implementation("net.codetreats:kotlin-rest-client:0.0.3")
-    implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
-    implementation("com.squareup.moshi:moshi-adapters:1.14.0")
-    implementation("com.squareup.moshi:moshi-kotlin-codegen:1.14.0")
+    api("net.codetreats:kotlin-rest-client:0.0.4")
+    api("org.apache.logging.log4j:log4j-api:2.24.1")
+    implementation("com.squareup.moshi:moshi-kotlin:1.15.1")
+    implementation("com.squareup.moshi:moshi-adapters:1.15.1")
+    implementation("com.squareup.moshi:moshi-kotlin-codegen:1.15.1")
 }
 
 tasks.test {

@@ -3,6 +3,7 @@ package net.codetreats.sevdesk.model
 data class InvoicePos(
     val id: String,
     val name: String,
+    val text: String?,
     val invoice: InvoiceObject,
     val part: PartObject?,
     val sumNet: Double,
@@ -15,4 +16,5 @@ data class InvoicePos(
     val taxRate: Int,
     val discount: Double,
     val sumDiscount: Double,
+    val unity: UnityObject
 )
