@@ -12,7 +12,7 @@ import net.codetreats.sevdesk.model.create.ContactSave
 import net.codetreats.sevdesk.model.create.InvoiceSaveContainer
 
 class ContactApi(private val client: SevDeskClient) {
-    fun byZip(zip: String) =
+    fun byZip(zip: String) : List<Contact> =
         client.get<Contact>("/Contact", mapOf(NO_LIMIT, "depth" to "1", "zip" to zip))
 
     fun hasEmail(customerId: String, email: String): Boolean {

@@ -5,6 +5,19 @@ sealed class IdObject(val id: String, val objectName: String) {
 
     fun asParam() : Map<String, String> =
         mapOf("${objectName.decapitalize()}[id]" to id, "${objectName.decapitalize()}[objectName]" to objectName)
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is IdObject) return false
+        if (id != other.id) return false
+        if (objectName != other.objectName) return false
+        return true
+    }
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + objectName.hashCode()
+        return result
+    }
 }
 
 class CheckAccountObject(id: String, objectName: String = "CheckAccount") : IdObject(id, objectName)

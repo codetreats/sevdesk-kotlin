@@ -29,7 +29,7 @@ data class VoucherSave(
 
 data class VoucherPosSave(
     val mapAll: Boolean = true,
-    val accountDatev: AccountDatevObject,
+    val accountingType: AccountingTypeObject,
     val taxRate: Int,
     val net: Boolean = false,
     val isAsset: Boolean = false,

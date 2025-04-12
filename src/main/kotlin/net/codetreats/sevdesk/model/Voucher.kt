@@ -1,7 +1,6 @@
 package net.codetreats.sevdesk.model
 
 import com.squareup.moshi.*
-import net.codetreats.sevdesk.model.create.VoucherPosSave
 import java.lang.IllegalArgumentException
 import java.time.LocalDateTime
 
@@ -33,7 +32,7 @@ data class Voucher(
 
 data class VoucherPos(
     val id: String,
-    val accountDatev: AccountDatevObject,
+    val accountingType: AccountingTypeObject,
     val taxRate: Int,
     val sumNet: Double,
     val sumGross: Double,
