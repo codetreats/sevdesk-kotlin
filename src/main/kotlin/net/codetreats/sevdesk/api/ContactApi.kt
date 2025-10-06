@@ -2,10 +2,7 @@ package net.codetreats.sevdesk.api
 
 import net.codetreats.sevdesk.NO_LIMIT
 import net.codetreats.sevdesk.SevDeskClient
-import net.codetreats.sevdesk.model.CommunicationWay
-import net.codetreats.sevdesk.model.Contact
-import net.codetreats.sevdesk.model.ContactAddress
-import net.codetreats.sevdesk.model.ContactObject
+import net.codetreats.sevdesk.model.*
 import net.codetreats.sevdesk.model.create.CommunicationWaySave
 import net.codetreats.sevdesk.model.create.ContactAddressSave
 import net.codetreats.sevdesk.model.create.ContactSave
@@ -14,6 +11,9 @@ import net.codetreats.sevdesk.model.create.InvoiceSaveContainer
 class ContactApi(private val client: SevDeskClient) {
     fun byZip(zip: String) : List<Contact> =
         client.get<Contact>("/Contact", mapOf(NO_LIMIT, "depth" to "1", "zip" to zip))
+
+    fun all() : List<Contact> =
+        client.get<Contact>("/Contact", mapOf(NO_LIMIT, "depth" to "1"))
 
     fun hasEmail(customerId: String, email: String): Boolean {
         val allEmails = client.get<CommunicationWay>(
@@ -31,6 +31,9 @@ class ContactApi(private val client: SevDeskClient) {
         client.post("/ContactAddress", body = contactAddress);
 
 
-    fun addCommunicationway(communicationWaySave: CommunicationWaySave) : CommunicationWay =
+    fun addCommunicationWay(communicationWaySave: CommunicationWaySave) : CommunicationWay =
         client.post("/CommunicationWay", body = communicationWaySave);
+
+    fun communicationWays(type: CommunicationWayType) : List<CommunicationWay> =
+        client.get("/CommunicationWay", mapOf(NO_LIMIT, "type" to type.name))
 }

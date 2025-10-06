@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "net.codetreats"
-version = "0.2.1"
+version = "0.3.0-rc.5-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    api("net.codetreats:kotlin-rest-client:1.1.0")
+    api("net.codetreats:kotlin-rest-client:2.0.0")
     api("org.apache.logging.log4j:log4j-api:2.24.1")
     implementation("com.squareup.moshi:moshi-kotlin:1.15.1")
     implementation("com.squareup.moshi:moshi-adapters:1.15.1")
@@ -75,22 +75,10 @@ publishing {
     }
 
     repositories {
-        if (project.version.toString().endsWith("-SNAPSHOT")) {
-            configureRepo("snapshot", false)
-        } else {
-            configureRepo("release", true)
-        }
-    }
-}
-
-fun RepositoryHandler.configureRepo(type: String, secureProtocol: Boolean) {
-    maven {
-        this.name = type
-        this.url = uri(project.findProperty("$type.repo.url")!!.toString())
-        this.isAllowInsecureProtocol = !secureProtocol
-        credentials {
-            this.username = project.findProperty("$type.repo.user")!!.toString()
-            this.password = project.findProperty("$type.repo.password")!!.toString()
+        maven {
+            this.name = "repo"
+            this.url = uri(project.findProperty("repo.url")!!.toString())
+            this.isAllowInsecureProtocol = true
         }
     }
 }

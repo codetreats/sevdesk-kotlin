@@ -23,6 +23,9 @@ class InvoiceApi(private val client: SevDeskClient) {
     fun positions(invoiceId: String): List<InvoicePos> =
         client.get<InvoicePos>("/InvoicePos", InvoiceObject(invoiceId).asParam())
 
+    fun positionsByPart(partId: String): List<InvoicePos> =
+        client.get<InvoicePos>("/InvoicePos", mapOf(NO_LIMIT) + PartObject(partId).asParam())
+
     fun nextNumber(): String =
         client.getElement<String>("/Invoice/Factory/getNextInvoiceNumber")
 

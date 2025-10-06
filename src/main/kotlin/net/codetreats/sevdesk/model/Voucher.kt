@@ -27,12 +27,13 @@ data class Voucher(
     val sumGross: Double,
     val showNet: Int,
     val voucherType: String,
-    val deliveryDate: LocalDateTime
+    val deliveryDate: LocalDateTime,
+    val taxRule: TaxRuleObject?
 )
 
 data class VoucherPos(
     val id: String,
-    val accountingType: AccountingTypeObject,
+    val accountDatev: AccountDatevObject,
     val taxRate: Int,
     val sumNet: Double,
     val sumGross: Double,

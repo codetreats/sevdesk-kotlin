@@ -17,6 +17,7 @@ data class VoucherSave(
     val payDate: LocalDateTime,
     val status: VoucherStatus = VoucherStatus.UNPAID,
     val taxType: String? = null,
+    val taxRule: TaxRuleObject? = null,
     val creditDebit: String = "C",
     val voucherType: String = "VOU",
     val currency: String = "EUR",
@@ -29,7 +30,7 @@ data class VoucherSave(
 
 data class VoucherPosSave(
     val mapAll: Boolean = true,
-    val accountingType: AccountingTypeObject,
+    val accountDatev: AccountDatevObject,
     val taxRate: Int,
     val net: Boolean = false,
     val isAsset: Boolean = false,

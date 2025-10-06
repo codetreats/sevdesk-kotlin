@@ -23,7 +23,7 @@ class SevDeskClient(
     apiKey: String,
     val logger: Logger? = null
 ) {
-    val restClient = RestClient(apiUrl, mapOf("Authorization" to apiKey))
+    val restClient = RestClient(apiUrl, mapOf("Authorization" to apiKey, "User-Agent" to "PostmanRuntime/7.44.1"))
     val moshi: Moshi = Moshi.Builder()
         .add(Date::class.java, Rfc3339DateJsonAdapter())
         .add(LocalDateTime::class.java, LocalDateTimeAdapter())

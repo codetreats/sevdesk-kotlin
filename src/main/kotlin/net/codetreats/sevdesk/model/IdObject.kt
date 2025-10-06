@@ -84,6 +84,32 @@ class StaticCountryObject(id: String, objectName: String = "StaticCountry") : Id
         val GERMANY = StaticCountryObject("1")
         val SWISS = StaticCountryObject("2")
         val AUSTRIA = StaticCountryObject("3")
+        val GREAT_BRITAIN = StaticCountryObject("9")
+    }
+}
+
+class TaxRuleObject(id: String, objectName: String = "TaxRule") : IdObject(id, objectName) {
+    companion object {
+        val USTPFL_UMS_EINN = TaxRuleObject("1")
+        val AUSFUHREN = TaxRuleObject("2")
+        val INNERGEM_LIEF = TaxRuleObject("3")
+        val STFREIE_UMS_P4 = TaxRuleObject("4")
+        val REV_CHARGE_13B_1 = TaxRuleObject("5")
+        val INNERGEM_ERWERB = TaxRuleObject("8")
+        val VORST_ABZUGSF_AUFW = TaxRuleObject("9")
+        val NICHT_VORST_ABZUGSF_AUFW = TaxRuleObject("10")
+        val KLEINUNTERNEHMER_P19 = TaxRuleObject("11")
+        val REV_CHARGE_13B_MIT_VORST_ABZUG_0 = TaxRuleObject("12")
+        val REV_CHARGE_13B_OHNE_VORST_ABZUG_0 = TaxRuleObject("13")
+        val REV_CHARGE_13B_EU_0 = TaxRuleObject("14")
+        val NICHT_STEUERBAR_TAX = TaxRuleObject("15")
+        val NICHT_STEUERBAR_EXPENSE = TaxRuleObject("16")
+        val NICHT_IM_INLAND_STEUERBAR = TaxRuleObject("17")
+        val OSS_GOODS = TaxRuleObject("18")
+        val OSS_SERVICES = TaxRuleObject("19")
+        val OSS_OTHER = TaxRuleObject("20")
+        val REV_CHARGE_13B_1_USTG = TaxRuleObject("21")
+        val NICHT_STEUERBAR_REVENUE = TaxRuleObject("22")
     }
 }
 class InvoiceObject(id: String, objectName: String = "Invoice") : IdObject(id, objectName)
