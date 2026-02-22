@@ -7,7 +7,7 @@ import java.time.LocalDateTime
 data class InvoiceContainer(
     val invoice: Invoice,
     // Currently there is a bug in the SevDeskApi, that the quantity field of an InvoicePos is of type boolean
-    //val invoicePos: List<InvoicePos> = emptyList()
+    // val invoicePos: List<InvoicePos> = emptyList()
 )
 
 data class Invoice(
@@ -27,6 +27,8 @@ data class Invoice(
     val status: InvoiceStatus,
     override val contactPerson: ContactObject,
     val taxRate: Int,
+    val taxType: String? = null,
+    val taxRule: TaxRuleObject? = null,
     val invoiceType: InvoiceType,
     override val address: String,
     val currency: String,
@@ -37,7 +39,7 @@ data class Invoice(
     val showNet: Int,
     val sumDiscounts: Double,
     val sumDiscountNet: Double,
-    val sumDiscountGross: Double
+    val sumDiscountGross: Double,
 ) : Document {
     override fun type(): String = invoiceType.abbreviation
     override fun status(): Int = status.value
@@ -51,12 +53,12 @@ enum class InvoiceType(val abbreviation: String) {
     CANCELLATION("SR"),
     REMINDER("MA"),
     PART("TR"),
-    FINAL("ER");
+    FINAL("ER"),
+    ;
 
     companion object {
-        fun from(abbreviation: String): InvoiceType =
-            entries.firstOrNull { it.abbreviation == abbreviation }
-                ?: throw IllegalArgumentException("Invalid InvoiceType '$abbreviation")
+        fun from(abbreviation: String): InvoiceType = entries.firstOrNull { it.abbreviation == abbreviation }
+            ?: throw IllegalArgumentException("Invalid InvoiceType '$abbreviation")
     }
 }
 
@@ -64,14 +66,14 @@ enum class InvoiceStatus(val value: Int) {
     DEACTIVATED(50),
     DRAFT(100),
     OPEN(200),
-    PAYED(1000);
+    PAYED(1000),
+    ;
 
     companion object {
         fun from(value: Int): InvoiceStatus =
             entries.firstOrNull { it.value == value } ?: throw IllegalArgumentException("Invalid InvoiceStatus '$value")
     }
 }
-
 
 class InvoiceStatusAdapter : JsonAdapter<InvoiceStatus>() {
     @FromJson

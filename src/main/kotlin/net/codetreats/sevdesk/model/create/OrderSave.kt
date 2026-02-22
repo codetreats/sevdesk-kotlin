@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 
 data class OrderSaveContainer(
     val order: OrderSave,
-    val orderPosSave: List<OrderPosSave>
+    val orderPosSave: List<OrderPosSave>,
 )
 
 data class OrderSave(
@@ -21,7 +21,8 @@ data class OrderSave(
     val paymentTerms: String? = null,
     val smallSettlement: Int,
     val taxText: String,
-    val taxType: String,
+    val taxType: String? = null,
+    val taxRule: TaxRuleObject? = null,
     val taxRate: String,
     val showNet: Int,
     val contactPerson: SevUserObject,
@@ -31,7 +32,7 @@ data class OrderSave(
     val currency: String,
     val mapAll: Boolean,
     val version: String = "0",
-    val objectName: String = "Order"
+    val objectName: String = "Order",
 )
 
 data class OrderPosSave(
@@ -47,5 +48,5 @@ data class OrderPosSave(
     val taxRate: String,
     val temporary: Boolean,
     val mapAll: Boolean,
-    val objectName: String = "OrderPos"
+    val objectName: String = "OrderPos",
 )

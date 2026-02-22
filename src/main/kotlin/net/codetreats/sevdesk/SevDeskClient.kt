@@ -8,9 +8,12 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import net.codetreats.rest.RestClient
 import net.codetreats.sevdesk.model.*
 import net.codetreats.sevdesk.util.LocalDateTimeAdapter
-import java.time.LocalDateTime
 import org.apache.logging.log4j.Logger
+import java.io.File
+import java.time.LocalDateTime
 import java.util.*
+
+val CACHING_HEADER = "Cache-Control" to "max-stale"
 
 /**
  * Creates an instance of the API
@@ -19,11 +22,9 @@ import java.util.*
  * @param logger an optional logger
  */
 class SevDeskClient(
-    apiUrl: String,
-    apiKey: String,
-    val logger: Logger? = null
+    val restClient: RestClient,
+    val logger: Logger? = null,
 ) {
-    val restClient = RestClient(apiUrl, mapOf("Authorization" to apiKey, "User-Agent" to "PostmanRuntime/7.44.1"))
     val moshi: Moshi = Moshi.Builder()
         .add(Date::class.java, Rfc3339DateJsonAdapter())
         .add(LocalDateTime::class.java, LocalDateTimeAdapter())
@@ -43,11 +44,19 @@ class SevDeskClient(
     inline fun <reified T> get(
         subUrl: String,
         params: Map<String, String> = emptyMap(),
-        headers: Map<String, String> = emptyMap()
+        headers: Map<String, String> = emptyMap(),
+    ): List<T> = get(T::class.java, subUrl, params, headers)
+
+    fun <T> get(
+        type: Class<T>,
+        subUrl: String,
+        params: Map<String, String> = emptyMap(),
+        headers: Map<String, String> = emptyMap(),
     ): List<T> {
         logger?.info("GET $subUrl${params.asUrl()} ${headers.asList()}")
-        val message = restClient.get(subUrl, params, headers).message!!
-        val responseType = Types.newParameterizedType(SevDeskListResponse::class.java, T::class.java)
+        val message = restClient.get(subUrl, params, headers).message
+        logger?.trace("Result: $message")
+        val responseType = Types.newParameterizedType(SevDeskListResponse::class.java, type)
         val adapter: JsonAdapter<SevDeskListResponse<T>> = moshi.adapter(responseType)
         return adapter.fromJson(message)!!.objects
     }
@@ -56,14 +65,29 @@ class SevDeskClient(
         subUrl: String,
         params: Map<String, String> = emptyMap(),
         headers: Map<String, String> = emptyMap(),
-        body: T
-    ) : U {
+        body: T,
+    ): U {
         logger?.info("POST $subUrl${params.asUrl()} ${headers.asList()}")
         val adapterT: JsonAdapter<T> = moshi.adapter(T::class.java)
         val bodyString = adapterT.toJson(body)
-        logger?.trace("Content: ${bodyString}")
-        val message = restClient.post(subUrl, params, headers, bodyString).message!!
-        logger?.trace("Result: ${message}")
+        logger?.trace("Content: $bodyString")
+        val message = restClient.post(subUrl, params, headers, bodyString).message
+        logger?.trace("Result: $message")
+        val responseType = Types.newParameterizedType(SevDeskElementResponse::class.java, U::class.java)
+        val adapterU: JsonAdapter<SevDeskElementResponse<U>> = moshi.adapter(responseType)
+        return adapterU.fromJson(message)!!.objects
+    }
+
+    inline fun <reified U> postFile(
+        subUrl: String,
+        params: Map<String, String> = emptyMap(),
+        headers: Map<String, String> = emptyMap(),
+        file: File,
+    ): U {
+        logger?.info("POST $subUrl${params.asUrl()} ${headers.asList()}")
+        logger?.trace("Content: ${file.absolutePath}")
+        val message = restClient.postFile(subUrl, params, headers, "file", file).message
+        logger?.trace("Result: $message")
         val responseType = Types.newParameterizedType(SevDeskElementResponse::class.java, U::class.java)
         val adapterU: JsonAdapter<SevDeskElementResponse<U>> = moshi.adapter(responseType)
         return adapterU.fromJson(message)!!.objects
@@ -73,14 +97,14 @@ class SevDeskClient(
         subUrl: String,
         params: Map<String, String> = emptyMap(),
         headers: Map<String, String> = emptyMap(),
-        body: T
-    ) : U {
+        body: T,
+    ): U {
         logger?.info("PUT $subUrl${params.asUrl()} ${headers.asList()}")
         val adapterT: JsonAdapter<T> = moshi.adapter(T::class.java)
         val bodyString = adapterT.toJson(body)
-        logger?.trace("Content: ${bodyString}")
-        val message = restClient.put(subUrl, params, headers, bodyString).message!!
-        logger?.trace("Result: ${message}")
+        logger?.trace("Content: $bodyString")
+        val message = restClient.put(subUrl, params, headers, bodyString).message
+        logger?.trace("Result: $message")
         val responseType = Types.newParameterizedType(SevDeskElementResponse::class.java, U::class.java)
         val adapterU: JsonAdapter<SevDeskElementResponse<U>> = moshi.adapter(responseType)
         return adapterU.fromJson(message)!!.objects
@@ -89,13 +113,19 @@ class SevDeskClient(
     inline fun <reified T> getElement(
         subUrl: String,
         params: Map<String, String> = emptyMap(),
-        headers: Map<String, String> = emptyMap()
+        headers: Map<String, String> = emptyMap(),
     ): T {
         logger?.info("GET $subUrl${params.asUrl()} (${headers.asList()})")
-        val message = restClient.get(subUrl, params, headers).message!!
+        val message = restClient.get(subUrl, params, headers).message
         val responseType = Types.newParameterizedType(SevDeskElementResponse::class.java, T::class.java)
         val adapter: JsonAdapter<SevDeskElementResponse<T>> = moshi.adapter(responseType)
         return adapter.fromJson(message)!!.objects
+    }
+
+    fun delete(subUrl: String, params: Map<String, String> = emptyMap(), headers: Map<String, String> = emptyMap()) {
+        logger?.info("DELETE $subUrl${params.asUrl()} ${headers.asList()}")
+        val message = restClient.delete(subUrl, params, headers).message
+        logger?.trace("Result: $message")
     }
 
     fun Map<String, String>.asUrl() = if (isEmpty()) {
@@ -108,5 +138,14 @@ class SevDeskClient(
         ""
     } else {
         entries.joinToString(",", "(", ")") { (k, v) -> "$k=$v" }
+    }
+
+    companion object {
+        fun defaultRestClient(apiUrl: String, apiKey: String) =
+            RestClient(apiUrl, mapOf("Authorization" to apiKey, "User-Agent" to "PostmanRuntime/7.44.1"))
+        fun cachingRestClient(apiUrl: String, apiKey: String) = RestClient(
+            apiUrl,
+            mapOf("Authorization" to apiKey, "User-Agent" to "PostmanRuntime/7.44.1", CACHING_HEADER),
+        )
     }
 }

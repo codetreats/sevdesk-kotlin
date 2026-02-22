@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 
 data class InvoiceSaveContainer(
     val invoice: InvoiceSave,
-    val invoicePosSave: List<InvoicePosSave>
+    val invoicePosSave: List<InvoicePosSave>,
 )
 
 data class InvoiceSave(
@@ -21,7 +21,8 @@ data class InvoiceSave(
     val status: InvoiceStatus,
     val smallSettlement: Int,
     val taxText: String,
-    val taxType: String,
+    val taxType: String? = null,
+    val taxRule: TaxRuleObject? = null,
     val taxRate: String,
     val showNet: Int,
     val timeToPay: Int,
@@ -30,7 +31,7 @@ data class InvoiceSave(
     val address: String,
     val currency: String,
     val mapAll: Boolean,
-    val objectName: String = "Invoice"
+    val objectName: String = "Invoice",
 )
 
 data class InvoicePosSave(
@@ -46,5 +47,5 @@ data class InvoicePosSave(
     val taxRate: String,
     val temporary: Boolean,
     val mapAll: Boolean,
-    val objectName: String = "InvoicePos"
+    val objectName: String = "InvoicePos",
 )

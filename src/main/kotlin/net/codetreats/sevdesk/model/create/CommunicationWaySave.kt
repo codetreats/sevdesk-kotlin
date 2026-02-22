@@ -9,5 +9,5 @@ data class CommunicationWaySave(
     val type: CommunicationWayType,
     val value: String,
     val main: Boolean,
-    val key: CommunicationWayKeyObject
+    val key: CommunicationWayKeyObject,
 )

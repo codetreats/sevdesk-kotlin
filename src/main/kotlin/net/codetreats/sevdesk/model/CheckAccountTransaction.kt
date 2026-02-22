@@ -1,11 +1,11 @@
-package net.codetreats.sevdesk.model
+﻿package net.codetreats.sevdesk.model
 
 import com.squareup.moshi.*
 import java.lang.IllegalArgumentException
 import java.time.LocalDateTime
 
 data class CheckAccountTransaction(
-    val id: String,
+    override val id: String,
     val create: LocalDateTime,
     val update: LocalDateTime,
     val valueDate: LocalDateTime,
@@ -14,29 +14,32 @@ data class CheckAccountTransaction(
     val paymtPurpose: String?,
     val payeePayerName: String?,
     val checkAccount: CheckAccountObject,
-    val status: CheckAccountTransactionStatus
-)
+    val status: CheckAccountTransactionStatus,
+) : SevDeskItem
 
 enum class CheckAccountTransactionStatus(val value: Int) {
     CREATED(100),
     LINKED(200),
     PRIVATE(300),
     AUTOMATIC(350),
-    BOOKED(400);
+    BOOKED(400),
+    ;
 
     companion object {
-        fun from(value: Int) : CheckAccountTransactionStatus =
-            entries.firstOrNull { it.value == value} ?: throw IllegalArgumentException("Invalid CheckAccountTransactionStatus '$value")
+        fun from(value: Int): CheckAccountTransactionStatus = entries.firstOrNull {
+            it.value == value
+        } ?: throw IllegalArgumentException("Invalid CheckAccountTransactionStatus '$value")
     }
 }
 
-class CheckAccountTransactionStatusAdapter: JsonAdapter<CheckAccountTransactionStatus>() {
+class CheckAccountTransactionStatusAdapter : JsonAdapter<CheckAccountTransactionStatus>() {
     @FromJson
-    override fun fromJson(reader: JsonReader): CheckAccountTransactionStatus? =  if (reader.peek() != JsonReader.Token.NULL) {
-        CheckAccountTransactionStatus.from(reader.nextInt())
-    } else {
-        reader.nextNull()
-    }
+    override fun fromJson(reader: JsonReader): CheckAccountTransactionStatus? =
+        if (reader.peek() != JsonReader.Token.NULL) {
+            CheckAccountTransactionStatus.from(reader.nextInt())
+        } else {
+            reader.nextNull()
+        }
 
     @ToJson
     override fun toJson(writer: JsonWriter, value: CheckAccountTransactionStatus?) {

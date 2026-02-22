@@ -5,7 +5,7 @@ import java.lang.IllegalArgumentException
 import java.time.LocalDateTime
 
 data class OrderContainer(
-    val order: Order
+    val order: Order,
 )
 
 data class Order(
@@ -27,6 +27,9 @@ data class Order(
     override val customerInternalNote: String?,
     val deliveryTerms: String?,
     val paymentTerms: String?,
+    val taxRate: Int,
+    val taxType: String? = null,
+    val taxRule: TaxRuleObject? = null,
 ) : Document {
     override fun type(): String = orderType.abbreviation
     override fun status(): Int = status.value
@@ -37,11 +40,13 @@ data class Order(
 enum class OrderType(val abbreviation: String) {
     DELIVERY_NOTE("LI"),
     ORDER_CONFIRMATION("AB"),
-    PROPOSAL("AN");
+    PROPOSAL("AN"),
+    ;
 
     companion object {
-        fun from(abbreviation: String) : OrderType =
-            entries.firstOrNull { it.abbreviation == abbreviation} ?: throw IllegalArgumentException("Invalid OrderType '$abbreviation")
+        fun from(abbreviation: String): OrderType = entries.firstOrNull {
+            it.abbreviation == abbreviation
+        } ?: throw IllegalArgumentException("Invalid OrderType '$abbreviation")
     }
 }
 
@@ -51,17 +56,18 @@ enum class OrderStatus(val value: Int) {
     CANCELLED(300),
     ACCEPTED(500),
     PARTIALLY_CALCULATED(750),
-    CALCULATED(1000);
+    CALCULATED(1000),
+    ;
 
     companion object {
-        fun from(value: Int) : OrderStatus =
-            entries.firstOrNull { it.value == value} ?: throw IllegalArgumentException("Invalid OrderStatus '$value")
+        fun from(value: Int): OrderStatus =
+            entries.firstOrNull { it.value == value } ?: throw IllegalArgumentException("Invalid OrderStatus '$value")
     }
 }
 
-class OrderStatusAdapter: JsonAdapter<OrderStatus>() {
+class OrderStatusAdapter : JsonAdapter<OrderStatus>() {
     @FromJson
-    override fun fromJson(reader: JsonReader): OrderStatus? =  if (reader.peek() != JsonReader.Token.NULL) {
+    override fun fromJson(reader: JsonReader): OrderStatus? = if (reader.peek() != JsonReader.Token.NULL) {
         OrderStatus.from(reader.nextInt())
     } else {
         reader.nextNull()
@@ -73,9 +79,9 @@ class OrderStatusAdapter: JsonAdapter<OrderStatus>() {
     }
 }
 
-class OrderTypeAdapter: JsonAdapter<OrderType>() {
+class OrderTypeAdapter : JsonAdapter<OrderType>() {
     @FromJson
-    override fun fromJson(reader: JsonReader): OrderType? =  if (reader.peek() != JsonReader.Token.NULL) {
+    override fun fromJson(reader: JsonReader): OrderType? = if (reader.peek() != JsonReader.Token.NULL) {
         OrderType.from(reader.nextString())
     } else {
         reader.nextNull()

@@ -3,7 +3,7 @@ package net.codetreats.sevdesk.model
 sealed class IdObject(val id: String, val objectName: String) {
     override fun toString(): String = "$objectName($id)"
 
-    fun asParam() : Map<String, String> =
+    fun asParam(): Map<String, String> =
         mapOf("${objectName.decapitalize()}[id]" to id, "${objectName.decapitalize()}[objectName]" to objectName)
 
     override fun equals(other: Any?): Boolean {
@@ -50,11 +50,15 @@ class AccountingTypeObject(id: String, objectName: String = "AccountingType") : 
 class AccountDatevObject(id: String, objectName: String = "AccountDatev") : IdObject(id, objectName) {
     companion object {
         val ACCOUNT_CARD_FEE = AccountDatevObject("4285")
+        val WAGE_AND_SALARY = AccountDatevObject("4085")
         val MINIJOB_WAGE = AccountDatevObject("4094")
         val MINIJOB_TAX = AccountDatevObject("4095")
     }
 }
-class CheckAccountTransactionObject(id: String, objectName: String = "CheckAccountTransaction") : IdObject(id, objectName)
+class CheckAccountTransactionObject(
+    id: String,
+    objectName: String = "CheckAccountTransaction",
+) : IdObject(id, objectName)
 class SevUserObject(id: String, objectName: String = "SevUser") : IdObject(id, objectName)
 class ContactObject(id: String, objectName: String = "Contact") : IdObject(id, objectName)
 class CommunicationWayKeyObject(id: String, objectName: String = "CommunicationWayKey") : IdObject(id, objectName) {

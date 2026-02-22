@@ -9,7 +9,7 @@ import java.lang.IllegalArgumentException
 import java.time.LocalDateTime
 
 data class Contact(
-    val id: String,
+    override val id: String,
     val create: LocalDateTime,
     val update: LocalDateTime,
     val name: String?,
@@ -18,22 +18,23 @@ data class Contact(
     val surename: String?,
     val familyname: String?,
     val category: CategoryObject,
-    val description: String?
-)
+    val description: String?,
+) : SevDeskItem
 enum class ContactStatus(val value: Int) {
     LEAD(100),
     PENDING(500),
-    ACTIVE(1000);
+    ACTIVE(1000),
+    ;
 
     companion object {
-        fun from(value: Int) : ContactStatus =
-            entries.firstOrNull { it.value == value} ?: throw IllegalArgumentException("Invalid ContactStatus '$value")
+        fun from(value: Int): ContactStatus =
+            entries.firstOrNull { it.value == value } ?: throw IllegalArgumentException("Invalid ContactStatus '$value")
     }
 }
 
-class ContactStatusAdapter: JsonAdapter<ContactStatus>() {
+class ContactStatusAdapter : JsonAdapter<ContactStatus>() {
     @FromJson
-    override fun fromJson(reader: JsonReader): ContactStatus? =  if (reader.peek() != JsonReader.Token.NULL) {
+    override fun fromJson(reader: JsonReader): ContactStatus? = if (reader.peek() != JsonReader.Token.NULL) {
         ContactStatus.from(reader.nextInt())
     } else {
         reader.nextNull()
@@ -44,4 +45,3 @@ class ContactStatusAdapter: JsonAdapter<ContactStatus>() {
         writer.value(value?.value)
     }
 }
-

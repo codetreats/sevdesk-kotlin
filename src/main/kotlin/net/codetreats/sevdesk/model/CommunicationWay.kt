@@ -5,18 +5,21 @@ import java.lang.IllegalArgumentException
 import java.time.LocalDateTime
 
 data class CommunicationWay(
-    val id: String,
+    override val id: String,
     val create: LocalDateTime,
     val update: LocalDateTime,
     val contact: ContactObject,
     val type: CommunicationWayType,
     val value: String,
     val key: CommunicationWayKeyObject,
-    val main: Int
-)
+    val main: Int,
+) : SevDeskItem
 
 enum class CommunicationWayType {
-    EMAIL, PHONE, WEB, MOBILE
+    EMAIL,
+    PHONE,
+    WEB,
+    MOBILE,
 }
 
 enum class CommunicationWayKey(val value: Int) {
@@ -27,18 +30,19 @@ enum class CommunicationWayKey(val value: Int) {
     EMPTY(5),
     AUTOBOX(6),
     NEWSLETTER(7),
-    INVOICING(8);
-
+    INVOICING(8),
+    ;
 
     companion object {
-        fun from(value: Int) : CommunicationWayKey =
-            CommunicationWayKey.entries.firstOrNull { it.value == value} ?: throw IllegalArgumentException("Invalid CommunicationWayKey '$value")
+        fun from(value: Int): CommunicationWayKey = CommunicationWayKey.entries.firstOrNull {
+            it.value == value
+        } ?: throw IllegalArgumentException("Invalid CommunicationWayKey '$value")
     }
 }
 
-class CommunicationWayTypeAdapter: JsonAdapter<CommunicationWayType>() {
+class CommunicationWayTypeAdapter : JsonAdapter<CommunicationWayType>() {
     @FromJson
-    override fun fromJson(reader: JsonReader): CommunicationWayType? =  if (reader.peek() != JsonReader.Token.NULL) {
+    override fun fromJson(reader: JsonReader): CommunicationWayType? = if (reader.peek() != JsonReader.Token.NULL) {
         CommunicationWayType.valueOf(reader.nextString())
     } else {
         reader.nextNull()
@@ -50,9 +54,9 @@ class CommunicationWayTypeAdapter: JsonAdapter<CommunicationWayType>() {
     }
 }
 
-class CommunicationWayKeyAdapter: JsonAdapter<CommunicationWayKey>() {
+class CommunicationWayKeyAdapter : JsonAdapter<CommunicationWayKey>() {
     @FromJson
-    override fun fromJson(reader: JsonReader): CommunicationWayKey? =  if (reader.peek() != JsonReader.Token.NULL) {
+    override fun fromJson(reader: JsonReader): CommunicationWayKey? = if (reader.peek() != JsonReader.Token.NULL) {
         CommunicationWayKey.from(reader.nextInt())
     } else {
         reader.nextNull()

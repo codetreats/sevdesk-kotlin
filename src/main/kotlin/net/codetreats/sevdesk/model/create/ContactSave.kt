@@ -7,5 +7,5 @@ data class ContactSave(
     val familyname: String,
     val description: String,
     val name2: String,
-    val category: CategoryObject
+    val category: CategoryObject,
 )

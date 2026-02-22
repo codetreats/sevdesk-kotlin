@@ -8,6 +8,5 @@ data class ContactAddressSave(
     val zip: String,
     val city: String,
     val country: StaticCountryObject,
-    val category: CategoryObject
+    val category: CategoryObject,
 )
-

@@ -2,8 +2,8 @@ package net.codetreats.sevdesk.model
 
 import java.time.LocalDateTime
 
-interface Document {
-    val id: String
+interface Document : SevDeskItem {
+    override val id: String
     val contact: ContactObject
     val create: LocalDateTime
     val update: LocalDateTime

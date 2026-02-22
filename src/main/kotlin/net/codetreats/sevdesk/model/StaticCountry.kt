@@ -1,23 +1,22 @@
 package net.codetreats.sevdesk.model
 
 data class StaticCountry(
-    val id: String,
+    override val id: String,
     val code: String,
     val name: String,
     val nameEn: String?,
     val translationCode: String,
     val locale: String,
     val additionalInformation: String?,
-    val priority: String?
-)
+    val priority: String?,
+) : SevDeskItem
 
 /**
  * @param country the name of the country. Can be the ISO-Code
  */
-fun List<StaticCountry>.getCountry(countryNameOrCode: String) : StaticCountry? =
+fun List<StaticCountry>.getCountry(countryNameOrCode: String): StaticCountry? =
     firstOrNull { it.isLike(countryNameOrCode) }
 
-private fun StaticCountry.isLike(countryNameOrCode: String) =
-    code.lowercase() == countryNameOrCode.lowercase() ||
-            name.lowercase() == countryNameOrCode.lowercase() ||
-            translationCode.lowercase() == "country_${countryNameOrCode.lowercase()}"
+private fun StaticCountry.isLike(countryNameOrCode: String) = code.lowercase() == countryNameOrCode.lowercase() ||
+    name.lowercase() == countryNameOrCode.lowercase() ||
+    translationCode.lowercase() == "country_${countryNameOrCode.lowercase()}"

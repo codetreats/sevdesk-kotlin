@@ -3,7 +3,7 @@ package net.codetreats.sevdesk.model
 import java.time.LocalDateTime
 
 data class ContactAddress(
-    val id: String,
+    override val id: String,
     val create: LocalDateTime,
     val update: LocalDateTime,
     val contact: ContactObject,
@@ -12,5 +12,5 @@ data class ContactAddress(
     val city: String,
     val country: StaticCountryObject,
     val category: CategoryObject,
-    val name: String?
-)
+    val name: String?,
+) : SevDeskItem

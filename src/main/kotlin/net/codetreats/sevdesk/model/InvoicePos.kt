@@ -1,7 +1,7 @@
 package net.codetreats.sevdesk.model
 
 data class InvoicePos(
-    val id: String,
+    override val id: String,
     val name: String,
     val text: String?,
     val invoice: InvoiceObject,
@@ -16,5 +16,5 @@ data class InvoicePos(
     val taxRate: Int,
     val discount: Double,
     val sumDiscount: Double,
-    val unity: UnityObject
-)
+    val unity: UnityObject,
+) : SevDeskItem

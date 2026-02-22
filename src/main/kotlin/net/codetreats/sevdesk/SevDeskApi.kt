@@ -2,15 +2,8 @@ package net.codetreats.sevdesk
 
 import net.codetreats.sevdesk.api.*
 import net.codetreats.sevdesk.model.*
-import net.codetreats.sevdesk.model.StaticCountry
-import net.codetreats.sevdesk.model.create.VoucherSaveContainer
-import net.codetreats.sevdesk.util.asTimestampParam
-import net.codetreats.sevdesk.util.unixTimestamp
-import java.lang.IllegalArgumentException
-import java.time.LocalDateTime
 
-
-val NO_LIMIT = Pair("limit", "100000")
+val NO_LIMIT = Pair("limit", "1000000")
 
 /**
  * Creates an instance of the API

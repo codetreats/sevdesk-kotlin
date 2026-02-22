@@ -5,7 +5,8 @@ import java.time.LocalDateTime
 
 data class VoucherSaveContainer(
     val voucher: VoucherSave,
-    val voucherPosSave: List<VoucherPosSave>
+    val voucherPosSave: List<VoucherPosSave>,
+    val filename: String?,
 )
 
 data class VoucherSave(
@@ -25,7 +26,7 @@ data class VoucherSave(
     val deliveryDateUntil: LocalDateTime? = null,
     val document: DocumentObject? = null,
     val costCentre: String? = null,
-    val objectName: String = "Voucher"
+    val objectName: String = "Voucher",
 )
 
 data class VoucherPosSave(
@@ -37,5 +38,13 @@ data class VoucherPosSave(
     val sumNet: Double,
     val sumGross: Double,
     val comment: String,
-    val objectName: String = "VoucherPos"
+    val objectName: String = "VoucherPos",
+)
+
+data class VoucherUploadResult(
+    val pages: Int,
+    val mimeType: String,
+    val originMimeType: String,
+    val filename: String,
+    val contentHash: String,
 )

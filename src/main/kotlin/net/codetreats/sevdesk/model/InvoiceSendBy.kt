@@ -2,9 +2,8 @@ package net.codetreats.sevdesk.model
 
 data class InvoiceSendBy(
     val sendType: InvoiceSendType,
-    val sendDraft: Boolean = false
+    val sendDraft: Boolean = false,
 )
-
 
 enum class InvoiceSendType {
     /**
@@ -25,5 +24,5 @@ enum class InvoiceSendType {
     /**
      * Generate the invoice as a PDF.
      */
-    VPDF
+    VPDF,
 }

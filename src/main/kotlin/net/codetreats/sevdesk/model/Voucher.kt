@@ -6,11 +6,11 @@ import java.time.LocalDateTime
 
 data class VoucherContainer(
     val voucher: Voucher,
-    val voucherPos: List<VoucherPos>
+    val voucherPos: List<VoucherPos>,
 )
 
 data class Voucher(
-    val id: String,
+    override val id: String,
     val additionalInformation: String?,
     val create: LocalDateTime,
     val update: LocalDateTime,
@@ -28,8 +28,10 @@ data class Voucher(
     val showNet: Int,
     val voucherType: String,
     val deliveryDate: LocalDateTime,
-    val taxRule: TaxRuleObject?
-)
+    val taxRate: Int?,
+    val taxType: String? = null,
+    val taxRule: TaxRuleObject? = null,
+) : SevDeskItem
 
 data class VoucherPos(
     val id: String,
@@ -40,23 +42,23 @@ data class VoucherPos(
     val comment: String,
 )
 
-
 enum class VoucherStatus(val value: Int) {
     DRAFT(50),
     UNPAID(100),
     TRANSFERRED(150),
     PARTIALLY_PAID(750),
-    PAID(1000);
+    PAID(1000),
+    ;
 
     companion object {
-        fun from(value: Int) : VoucherStatus =
-            entries.firstOrNull { it.value == value} ?: throw IllegalArgumentException("Invalid VoucherStatus '$value")
+        fun from(value: Int): VoucherStatus =
+            entries.firstOrNull { it.value == value } ?: throw IllegalArgumentException("Invalid VoucherStatus '$value")
     }
 }
 
-class VoucherStatusAdapter: JsonAdapter<VoucherStatus>() {
+class VoucherStatusAdapter : JsonAdapter<VoucherStatus>() {
     @FromJson
-    override fun fromJson(reader: JsonReader): VoucherStatus? =  if (reader.peek() != JsonReader.Token.NULL) {
+    override fun fromJson(reader: JsonReader): VoucherStatus? = if (reader.peek() != JsonReader.Token.NULL) {
         VoucherStatus.from(reader.nextInt())
     } else {
         reader.nextNull()
