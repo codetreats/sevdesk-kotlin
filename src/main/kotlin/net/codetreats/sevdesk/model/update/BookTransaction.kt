@@ -32,6 +32,6 @@ data class BookTransactionResponse(
     val create: LocalDateTime,
     val fromStatus: String,
     val toStatus: String,
-    val ammountPayed: String,
+    val amountPayed: String?,
     val bookingDate: LocalDateTime,
 )
